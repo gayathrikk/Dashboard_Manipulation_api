@@ -5,18 +5,34 @@ import org.testng.annotations.Test;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class CryoBlock_api {
 	
-	@Test(priority=1)
-	public void CryoBlock()
-	{
-        Response response1 = RestAssured.get("https://apollo2.humanbrain.in/dashboard/dashboardCryoBlock");
-        int statusCode1 = response1.getStatusCode();
-        
-        Assert.assertEquals(statusCode1, 200, "API request to the CryoBlock failed. Status code: " + statusCode1);
-        
-        System.out.println("API request to the CryoBlock passed. Status code: " + statusCode1);
-	}
+	private static final Map<String, String> ENDPOINT_LABELS = new LinkedHashMap<>();
+	    static {
+	    	 ENDPOINT_LABELS.put("https://apollo2.humanbrain.in/dashboard/dashboardCryoBlock", "CryoBlock");
+	        ENDPOINT_LABELS.put("https://apollo2.humanbrain.in/dashboard/dashboardCryoBlock", "CryoBlock_Add");
+	        ENDPOINT_LABELS.put("https://apollo2.humanbrain.in/dashboard/queryCryoBlock/1", "CryoBloack_Waiting");
+	        ENDPOINT_LABELS.put("https://apollo2.humanbrain.in/dashboard/queryCryoBlock/2", "Cryo_Blocking_Frozen_InProgress");
+	        ENDPOINT_LABELS.put("https://apollo2.humanbrain.in/dashboard/queryCryoBlock/3", "Cryo_Blocking_Out");
+	        
+	    } 
 
-}
+	    @Test
+	    public void testAPIs() {
+	        for (String endpoint : ENDPOINT_LABELS.keySet()) {
+	            String endpointLabel = ENDPOINT_LABELS.get(endpoint);
+	            Response response = RestAssured.get(endpoint);
+
+	            int statusCode = response.getStatusCode();
+	            if (statusCode == 200) {
+	                System.out.println("API request to " + endpointLabel + " passed. Status code: " + statusCode);
+	            } else {
+	                System.out.println("API request to " + endpointLabel + " failed. Status code: " + statusCode);
+	            }
+
+	            Assert.assertEquals(statusCode, 200, "API request to " + endpointLabel + " failed");
+	        }
+	    }}
