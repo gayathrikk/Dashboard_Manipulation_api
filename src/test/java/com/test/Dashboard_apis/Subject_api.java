@@ -10,8 +10,6 @@ import java.util.Map;
 
 public class Subject_api {
 	
-	public class Dashboard_manipulation_API {
-	
 	private static final Map<String, String> ENDPOINT_LABELS = new LinkedHashMap<>();
     static {
     	 ENDPOINT_LABELS.put("https://apollo2.humanbrain.in/dashboard/dashboardSubject", "Manipulation_In");
